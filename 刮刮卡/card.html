@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Canvas实现刮刮卡效果</title>
+    <style type="text/css">
+        body，html {
+            margin: 0;
+        }
+        
+        canvas {
+            position: absolute;
+            left: 0;
+        }
+    </style>
+</head>
+
+<body onload="draw()">
+
+    <img src="cute.jpg" alt="">
+    <canvas id="canvas" width="510" height="375"></canvas>
+    <script>
+        function draw() {
+            var canvas = document.getElementById('canvas');
+            if (canvas.getContext) {
+                var ctx = canvas.getContext('2d'); //ctx相当于画笔
+                ctx.beginPath();
+                ctx.fillStyle = 'gray';
+                ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                ctx.globalCompositeOperation = 'destination-out';
+                ctx.lineWidth = 20; //修改画笔大小
+                ctx.lineCap = 'round'; //画笔形状
+
+                canvas.onmousedown = function(e) {
+                    var ev = e || window.event;
+                    var x = ev.clientX;
+                    var y = ev.clientY;
+
+                    ctx.moveTo(x, y);
+
+                    canvas.onmousemove = function(e) {
+                        var ev = e || window.event;
+                        var x = ev.clientX;
+                        var y = ev.clientY;
+
+                        ctx.lineTo(x, y);
+                        ctx.stroke();
+                    }
+                    canvas.onmouseup = function() {
+                        canvas.onmousemove = "";
+                    }
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>
